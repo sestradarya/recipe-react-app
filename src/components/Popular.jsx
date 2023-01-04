@@ -18,7 +18,7 @@ function Popular() {
       setPopular(JSON.parse(check));
     } else {
       const api = await fetch(
-        `https://api.spoonacular.com/recipes/random?apiKey=${"f98d32491ab248b69166a032679093b8"}&number=9`
+        `https://api.spoonacular.com/recipes/random?apiKey=${"b940d983893f4c089c568f08a471e8ef"}&number=9`
       );
       const data = await api.json();
       console.log(data);

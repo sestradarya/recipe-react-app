@@ -5,11 +5,14 @@ import styled from "styled-components";
 const Recipe = () => {
   let params = useParams();
   const [details, setDetails] = useState({});
-  const [activeTab, setActiveTab] = useState('instructions')
+  const [activeTab, setActiveTab] = useState("instructions");
+  console.log(details);
 
   const fetchDetails = async () => {
     const data = await fetch(
-      `https://api.spoonacular.com/recipes/${params.name}/information?apiKey=${"f98d32491ab248b69166a032679093b8"}`
+      `https://api.spoonacular.com/recipes/${
+        params.name
+      }/information?apiKey=${"b940d983893f4c089c568f08a471e8ef"}`
     );
 
     const detailData = await data.json();
@@ -27,8 +30,35 @@ const Recipe = () => {
         <img src={details.image} alt="" />
       </div>
       <Info>
-        <Button className={activeTab === 'instructions' ? 'active' : ''} onClick={() => {setActiveTab('instructions')}}>Instructions</Button>
-        <Button className={activeTab === 'ingredients' ? 'active' : ''} onClick={() => {setActiveTab('ingredients')}}>Ingredients</Button>
+        <Button
+          className={activeTab === "instructions" ? "active" : ""}
+          onClick={() => {
+            setActiveTab("instructions");
+          }}
+        >
+          Instructions
+        </Button>
+        <Button
+          className={activeTab === "ingredients" ? "active" : ""}
+          onClick={() => {
+            setActiveTab("ingredients");
+          }}
+        >
+          Ingredients
+        </Button>
+        {activeTab === "instructions" && (
+          <div>
+            <h3 dangerouslySetInnerHTML={{ __html: details.summary }}></h3>
+            <h3 dangerouslySetInnerHTML={{ __html: details.instructions }}></h3>
+          </div>
+        )}
+        {activeTab === "ingredients" && (
+          <ul>
+            {details.extendedIngredients.map((ingredient) => (
+              <li key={ingredient.id}>{ingredient.original}</li>
+            ))}
+          </ul>
+        )}
       </Info>
     </DetailWrapper>
   );
@@ -47,13 +77,17 @@ const DetailWrapper = styled.div`
     font-size: 1.1rem;
   }
   li {
-    font-size: 1.2rem;
-    line-height: 2.5rem;
+    font-size: 1rem;
+    line-height: 1.5rem;
   }
   ul {
     margin-top: 2rem;
   }
-  img{
+  h3 {
+    font-size: 0.8rem;
+    line-height: 1.8rem;
+  }
+  img {
     width: 500px;
     height: auto;
   }
